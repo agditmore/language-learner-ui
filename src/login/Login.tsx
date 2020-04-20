@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import { Header, Input, Button, Modal, Message } from 'semantic-ui-react';
 import { useDispatch } from 'react-redux';
 import { addUserRequest } from '../types';
-import { addNewUser } from '../redux/slice';
+import { addNewUser, loadUser } from '../redux/slice';
+import { useHistory } from 'react-router-dom';
+import { getUserByUsername } from '../controller/controller';
+import { getUserRoutes } from '../routingConfig';
 
 interface Props {}
 
@@ -15,8 +18,15 @@ const Login: React.FC<Props> = () => {
   const [showModal, setShowModal] = useState(false);
   const [showError, setShowError] = useState(false);
   const dispatch = useDispatch();
+  const history = useHistory();
 
-  const handleLogin = (): void => {};
+  const handleLogin = (): void => {
+    getUserByUsername(username).then(data => {
+      console.log(data);
+      loadUser(data);
+      history.push(getUserRoutes(data.id).landingPage.path);
+    });
+  };
 
   const handleCancel = (): void => {
     setFirstName('');
@@ -35,7 +45,7 @@ const Login: React.FC<Props> = () => {
   };
 
   const handleRegister = (): void => {
-    console.log(validateTextField(firstName), 'first') 
+    console.log(validateTextField(firstName), 'first');
     console.log(validateTextField(lastName), 'last');
     console.log(validateTextField(email), 'email');
     console.log(validateTextField(newUsername), 'username');
@@ -45,15 +55,15 @@ const Login: React.FC<Props> = () => {
       validateTextField(email) &&
       validateTextField(newUsername)
     ) {
-     const newUser: addUserRequest = {
+      const newUser: addUserRequest = {
         firstName,
         lastName,
         email,
-        username: newUsername
-     }
-     dispatch(addNewUser(newUser));
-     handleCancel();
-     return;
+        username: newUsername,
+      };
+      dispatch(addNewUser(newUser));
+      handleCancel();
+      return;
     }
     setShowError(true);
     return;
@@ -78,25 +88,21 @@ const Login: React.FC<Props> = () => {
             label="First Name"
             value={firstName}
             onChange={data => setFirstName(data.target.value)}
-            // error={!validateTextField(firstName)}
           />
           <Input
             label="Last Name"
             value={lastName}
             onChange={data => setLastName(data.target.value)}
-            // error={!validateTextField(lastName)}
           />
           <Input
             label="Email"
             value={email}
             onChange={data => setEmail(data.target.value)}
-            // error={!validateTextField(email)}
           />
           <Input
             label="Username"
             value={newUsername}
             onChange={data => setNewUsername(data.target.value)}
-            // error={!validateTextField(newUsername)}
           />
           <Message negative hidden={!showError}>
             <Message.Header>
