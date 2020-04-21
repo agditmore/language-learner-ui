@@ -21,11 +21,13 @@ const Login: React.FC<Props> = () => {
   const history = useHistory();
 
   const handleLogin = (): void => {
-    getUserByUsername(username).then(data => {
-      console.log(data);
-      loadUser(data);
-      history.push(getUserRoutes(data.id).landingPage.path);
-    });
+    if (username.trim().length > 0) {
+      getUserByUsername(username).then(data => {
+        console.log(data);
+        dispatch(loadUser(data));
+        history.push(getUserRoutes(data.id).landingPage.path);
+      });
+    }
   };
 
   const handleCancel = (): void => {
@@ -45,10 +47,6 @@ const Login: React.FC<Props> = () => {
   };
 
   const handleRegister = (): void => {
-    console.log(validateTextField(firstName), 'first');
-    console.log(validateTextField(lastName), 'last');
-    console.log(validateTextField(email), 'email');
-    console.log(validateTextField(newUsername), 'username');
     if (
       validateTextField(firstName) &&
       validateTextField(lastName) &&

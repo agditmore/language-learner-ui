@@ -18,19 +18,19 @@ export const getUserRoutes = (userId: string): Route<'landingPage' | 'languageSe
   },
 });
 
-const routes: Route<'login'> = {
+const routes: Route<'login' | 'user'> = {
   login: {
     name: 'Log In',
     path: '/login',
     component: Login,
     exact: true,
   },
-//   user: {
-//     name: 'User',
-//     path: `/:userId`,
-//     component: LandingPage,
-//     exact: false,
-//   },
+  user: {
+    name: 'User',
+    path: `/:userId`,
+    component: LandingPage,
+    exact: false,
+  },
 };
 
 export default routes;
