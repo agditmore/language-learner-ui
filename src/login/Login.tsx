@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Header, Input, Button, Form, Label } from 'semantic-ui-react';
+import { Header, Button, Form } from 'semantic-ui-react';
 import { useDispatch } from 'react-redux';
 import { loadUser } from '../redux/slice';
 import { useHistory } from 'react-router-dom';
@@ -20,9 +20,8 @@ const Login: React.FC<Props> = () => {
   const handleLogin = (): void => {
     if (username.trim().length > 0) {
       getUserByUsername(username).then(data => {
-        console.log(data);
         dispatch(loadUser(data));
-        history.push(getUserRoutes(data.id).landingPage.path);
+        history.push(getUserRoutes(data.id).userDashboard.path);
       });
     }
   };

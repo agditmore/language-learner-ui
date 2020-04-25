@@ -10,3 +10,7 @@ export const postNewUser = (userRequest: addUserRequest): Promise<User> => {
 export const getUserByUsername = (username: string): Promise<User> => {
     return axios.get(`/${usersUri}/username/${username}`).then(({ data }) => data);
 }
+
+export const getUserByUserId = (userId: string): Promise<User> => {
+    return axios.get(`/${usersUri}/${userId}`).then(({ data }) => data);
+}

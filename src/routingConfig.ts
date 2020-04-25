@@ -1,13 +1,13 @@
 import LanguageSelection from "./pages/LanguageSelection";
 import { Route } from "./types";
 import Login from "./login/Login";
-import LandingPage from "./pages/LandingPage";
+import UserDashboard from "./pages/UserDashboard";
 
-export const getUserRoutes = (userId: string): Route<'landingPage' | 'languageSelection'> => ({
-  landingPage: {
+export const getUserRoutes = (userId: string): Route<'userDashboard' | 'languageSelection'> => ({
+  userDashboard: {
       name: 'Welcome',
       path:`/${userId}`,
-      component: LandingPage,
+      component: UserDashboard,
       exact: true,
   },
   languageSelection: {
@@ -28,7 +28,7 @@ const routes: Route<'login' | 'user'> = {
   user: {
     name: 'User',
     path: `/:userId`,
-    component: LandingPage,
+    component: UserDashboard,
     exact: false,
   },
 };
